@@ -59,16 +59,26 @@ function init() {
         //console.log(optionChanged);
       })
 
+    let initialSelection = d3.select("option").text();
+    console.log(initialSelection);
+
+    let samples = data.samples;
+    //console.log(samples)
+    let filteredData = filterData(samples, initialSelection);
+    //console.log(filteredData[0].sample_values);
+    let sample_values = filteredData[0].sample_values;
+    let ids = filteredData[0].otu_ids;
+    console.log(ids);
+    console.log(sample_values);
     })
 
-    //for(let i = 0; i < names.length; i++) {
-    //  let opt = names[i];
-    //}
-
-    //Object.values(aname).forEach(aname => {
-    //  let option = row.append("option");
-    //    option.text(value);
-    //}
+function filterData(samples, byID) {
+  filteredData = samples.filter(subject => subject.id === byID);
+  //console.log(filteredData) 
+  //let sampleValues = filteredData.map(filteredData);
+  //console.log(sampleValues);
+  return filteredData;
+}    
 
     //let samples = Object.values(data.samples);
     //let sampleValues = samples[0].sample_values;
