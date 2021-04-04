@@ -67,6 +67,8 @@ function init() {
     let filteredData = filterData(samples, initialSelection);
     //console.log(filteredData[0].sample_values);
     let sample_values = filteredData[0].sample_values;
+    sample_values = sample_values.sort((a, b) => b - a);
+    sample_values = sample_values.slice(0,10);
     let ids = filteredData[0].otu_ids;
     console.log(ids);
     console.log(sample_values);
