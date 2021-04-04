@@ -48,14 +48,15 @@ function init() {
     //console.log(data);
      
     let names = Object.values(data.names);
-    console.log(names);
+    //console.log(names);
     
     let dropdown = d3.select("#selDataset");
 
-    names.forEach((aname) => {
+    names.forEach((id) => {
       let option = dropdown.append("option");
-        option.text(aname);
-        //console.log(aname);
+        option.text(id);
+        //option.value(id);
+        //console.log(optionChanged);
       })
 
     })
@@ -82,8 +83,15 @@ function init() {
 
     };
 
+function optionChanged(currentValue) {
+    //let currentSelection = d3.select("option")
+    console.log(currentValue);
+  }
+
 
 init();
+
+//form.optionChanged("optionChanged", optionChanged);
 
 // Load sample data
 //d3.json('samples.json').then(data => {
