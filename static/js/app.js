@@ -67,15 +67,52 @@ function init() {
     let filteredData = filterData(samples, initialSelection);
     //console.log(filteredData[0].sample_values);
     let sample_values = filteredData[0].sample_values;
-    sample_values = sample_values.sort((a, b) => b - a);
-    sample_values = sample_values.slice(0,10);
-    let ids = filteredData[0].otu_ids;
+    let sorted_values = sample_values.slice(0,10);
+    let sorted_indexes = sorted_values.keys();
+    //sample_values = sample_values.slice(0,10);
+    let ids = filteredData[0].otu_ids.slice(0,10);
     console.log(ids);
-    console.log(sample_values);
+    console.log(sorted_values);
+    //console.log(sorted_indexes);
+        
+    let sorted_ids = [];
+    let sorted_labels = [];
+    
+    for (i of sorted_indexes) {
+      sorted_ids[i] = ids[i];
+    }
+    
+    //console.log(sorted_ids);
+
+    trace1 = {
+      x: sorted_values.reverse(),
+      y: ids.reverse(),
+      //text: "OTU ID",
+      //textposition: left,
+      type: "bar",
+      orientation: "h"
+    }
+
+    let traceData = [trace1];
+
+    let layout = {
+      title: ` `,
+      xaxis: {
+        //range: [startDate, endDate],
+        //type: "date"
+      },
+      yaxis: {
+        //text: "OTU ID",
+        autorange: true,
+        type: "category"
+      },
+      showlegend: false
+    }
+    Plotly.newPlot("bar", traceData, layout);
     })
 
-function filterData(samples, byID) {
-  filteredData = samples.filter(subject => subject.id === byID);
+function filterData(samples, selectedID) {
+  filteredData = samples.filter(subject => subject.id === selectedID);
   //console.log(filteredData) 
   //let sampleValues = filteredData.map(filteredData);
   //console.log(sampleValues);
