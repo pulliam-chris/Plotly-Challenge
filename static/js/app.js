@@ -36,11 +36,11 @@
 //function buildTable
 
 
-function unpack(rows, index) {
-      return rows.map(function(row) {
-      return row[index];
-      })
-  }
+//function unpack(rows, index) {
+//      return rows.map(function(row) {
+//      return row[index];
+//      })
+//  }
 
 function init() {
 
@@ -63,7 +63,8 @@ function init() {
     console.log(initialSelection);
 
     let samples = data.samples;
-    //console.log(samples)
+    let demographics = data.metadata;
+    //console.log(demographics)
     let filteredData = filterData(samples, initialSelection);
     //console.log(filteredData[0].sample_values);
     let sample_values = filteredData[0].sample_values;
@@ -75,12 +76,12 @@ function init() {
     console.log(sorted_values);
     //console.log(sorted_indexes);
         
-    let sorted_ids = [];
-    let sorted_labels = [];
+    //let sorted_ids = [];
+    //let sorted_labels = [];
     
-    for (i of sorted_indexes) {
-      sorted_ids[i] = ids[i];
-    }
+    //for (i of sorted_indexes) {
+    //  sorted_ids[i] = ids[i];
+    //}
     
     //console.log(sorted_ids);
 
@@ -109,7 +110,21 @@ function init() {
       showlegend: false
     }
     Plotly.newPlot("bar", traceData, layout);
-    })
+    
+    let filteredDemographics = filterDemographics(demographics, initialSelection);
+    filteredDemographics = filteredDemographics[0];
+    console.log(filteredDemographics);
+
+    let panel = d3.select("#sample-metadata");
+       
+    for (const [key, value] of Object.entries(filteredDemographics)) {
+      //console.log(`${key}: ${value}`);
+      let line = panel.append("p");
+      line.text(`${key}: ${value}`);
+    }
+   
+
+  })
 
 function filterData(samples, selectedID) {
   filteredData = samples.filter(subject => subject.id === selectedID);
@@ -118,6 +133,11 @@ function filterData(samples, selectedID) {
   //console.log(sampleValues);
   return filteredData;
 }    
+
+function filterDemographics(metadata, selectedID) {
+  filteredDemo = metadata.filter(object => object.id === parseInt(selectedID));
+  return filteredDemo;
+}
 
     //let samples = Object.values(data.samples);
     //let sampleValues = samples[0].sample_values;
@@ -130,7 +150,7 @@ function filterData(samples, selectedID) {
 
     
 
-    };
+};
 
 function optionChanged(currentValue) {
     //let currentSelection = d3.select("option")
