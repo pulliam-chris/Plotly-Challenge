@@ -100,12 +100,13 @@ function init() {
 
     let layout = {
       title: ` `,
+      width: 600,
+      height: 450,
       xaxis: {
-        //range: [startDate, endDate],
-        //type: "date"
+        title: "Sample Amount"
       },
       yaxis: {
-        //text: "OTU ID",
+        title: "OTU ID",
         autorange: true,
         type: "category"
       },
