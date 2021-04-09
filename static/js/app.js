@@ -125,20 +125,22 @@ function init() {
     var trace4 = {
       x: ids,
       y: sample_values,
-      //text: ['A</br>size: 40</br>sixeref: 1.25', 'B</br>size: 60</br>sixeref: 1.25', 'C</br>size: 80</br>sixeref: 1.25', 'D</br>size: 100</br>sixeref: 1.25'],
+      text: labels,
       mode: 'markers',
       marker: {
         size: size,
+        colorscale: 'Portland',
+        color: ids,
         //set 'sizeref' to an 'ideal' size given by the formula sizeref = 2. * max(array_of_size_values) / (desired_maximum_marker_size ** 2)
         sizeref: 2.0 * Math.max(...size) / (desired_maximum_marker_size**2),
         sizemode: 'area'
-      }
+      },
     };
     
     var data = [trace4];
     
     var bublayout = {
-      //title: 'Bubble Chart Size Scaling',
+      //title: 'Portland',
       showlegend: false,
       height: 600,
       width: 1000,
