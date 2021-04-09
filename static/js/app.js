@@ -69,12 +69,14 @@ function init() {
     //console.log(filteredData[0].sample_values);
     let sample_values = filteredData[0].sample_values;
     let sorted_values = sample_values.slice(0,10);
-    let sorted_indexes = sorted_values.keys();
+    //let sorted_indexes = sorted_values.keys();
     //sample_values = sample_values.slice(0,10);
     let ids = filteredData[0].otu_ids.slice(0,10);
+    let labels = filteredData[0].otu_labels.slice(0,10);
     console.log(ids);
     console.log(sorted_values);
     //console.log(sorted_indexes);
+    console.log(labels);
         
     //let sorted_ids = [];
     //let sorted_labels = [];
@@ -88,7 +90,7 @@ function init() {
     trace1 = {
       x: sorted_values.reverse(),
       y: ids.reverse(),
-      //text: "OTU ID",
+      text: labels.reverse(),
       //textposition: left,
       type: "bar",
       orientation: "h"
