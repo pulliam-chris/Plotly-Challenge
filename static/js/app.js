@@ -87,11 +87,12 @@ function init() {
     
     //console.log(sorted_ids);
 
+    //Construct Bar plot
     trace1 = {
+      //Reverse ordering based on Plotly's default
       x: sorted_values.reverse(),
       y: ids.reverse(),
       text: labels.reverse(),
-      //textposition: left,
       type: "bar",
       orientation: "h"
     }
@@ -114,6 +115,45 @@ function init() {
     }
     Plotly.newPlot("bar", traceData, layout);
     
+    //Create Bubble Chart
+    // sizeref using above forumla
+    var desired_maximum_marker_size = 80;
+    var size = sample_values;
+    //sample_values
+    ids = filteredData[0].otu_ids;
+    labels = filteredData[0].otu_labels;
+    var trace4 = {
+      x: ids,
+      y: sample_values,
+      //text: ['A</br>size: 40</br>sixeref: 1.25', 'B</br>size: 60</br>sixeref: 1.25', 'C</br>size: 80</br>sixeref: 1.25', 'D</br>size: 100</br>sixeref: 1.25'],
+      mode: 'markers',
+      marker: {
+        size: size,
+        //set 'sizeref' to an 'ideal' size given by the formula sizeref = 2. * max(array_of_size_values) / (desired_maximum_marker_size ** 2)
+        sizeref: 2.0 * Math.max(...size) / (desired_maximum_marker_size**2),
+        sizemode: 'area'
+      }
+    };
+    
+    var data = [trace4];
+    
+    var bublayout = {
+      //title: 'Bubble Chart Size Scaling',
+      showlegend: false,
+      height: 600,
+      width: 1000,
+      xaxis: {
+        title: "OTU ID"
+      },
+      yaxis: {
+        title: "Sample Amount"
+      }
+    };
+    
+    Plotly.newPlot('bubble', data, bublayout);
+    
+    
+    // Create demographic section from matching subject metadata
     let filteredDemographics = filterDemographics(demographics, initialSelection);
     filteredDemographics = filteredDemographics[0];
     console.log(filteredDemographics);
@@ -138,7 +178,7 @@ function filterData(samples, selectedID) {
 }    
 
 function filterDemographics(metadata, selectedID) {
-  filteredDemo = metadata.filter(object => object.id === parseInt(selectedID));
+  filteredDemo = metadata.filter(subject => subject.id === parseInt(selectedID));
   return filteredDemo;
 }
 
