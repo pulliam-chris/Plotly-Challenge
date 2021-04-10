@@ -1,94 +1,37 @@
-
-/*function buildPlot (samples) {
-    console.log(samples);
-
-    let id = "940"
-    trace1 = {
-      x: unpack(samples.samples, 2),
-      y: unpack(samples.samples, 1),
-      type: "bar",
-      //orientation: "h"
-    }
-
-    let traceData = [trace1];
-
-    layout = {
-      orientation: "h"
-
-    }
-
-    Plotly.newPlot("bar", traceData, layout);
-}*/
-
-//function buildDropDown
-
-//var select = document.getElementById("selectNumber"); 
-//var options = ["1", "2", "3", "4", "5"]; 
-
-//for(var i = 0; i < options.length; i++) {
-//    var opt = options[i];
-//    var el = document.createElement("option");
-//    el.textContent = opt;
-//    el.value = opt;
-//    select.appendChild(el);
-//}​
-
-//function buildTable
-
-
-//function unpack(rows, index) {
-//      return rows.map(function(row) {
-//      return row[index];
-//      })
-//  }
-
 function init() {
 
+    // Read in the samples JSON file and process
     d3.json('samples.json').then(function(data) {
-    //console.log(data);
-     
+         
+    // Capture names to build drop-down list on page
     let names = Object.values(data.names);
-    //console.log(names);
-    
     let dropdown = d3.select("#selDataset");
 
+    // Build the list
     names.forEach((id) => {
       let option = dropdown.append("option");
         option.text(id);
-        //option.value(id);
-        //console.log(optionChanged);
-      })
+    })
 
+    // Capture initial selection in drop-down
     let initialSelection = d3.select("option").text();
-    console.log(initialSelection);
-
+    
+    // Capture samples and demographic objects
     let samples = data.samples;
     let demographics = data.metadata;
-    //console.log(demographics)
+    
+    // Filter the data based on the current subject ID
     let filteredData = filterData(samples, initialSelection);
-    //console.log(filteredData[0].sample_values);
+    // Separate Object from returned array
     let sample_values = filteredData[0].sample_values;
+    
+    // Since already sorted slice top 10 data elements
     let sorted_values = sample_values.slice(0,10);
-    //let sorted_indexes = sorted_values.keys();
-    //sample_values = sample_values.slice(0,10);
     let ids = filteredData[0].otu_ids.slice(0,10);
     let labels = filteredData[0].otu_labels.slice(0,10);
-    console.log(ids);
-    console.log(sorted_values);
-    //console.log(sorted_indexes);
-    console.log(labels);
-        
-    //let sorted_ids = [];
-    //let sorted_labels = [];
     
-    //for (i of sorted_indexes) {
-    //  sorted_ids[i] = ids[i];
-    //}
-    
-    //console.log(sorted_ids);
-
-    //Construct Bar plot
-    trace1 = {
+    //Construct Bar plot from captured data
+    let trace1 = {
       //Reverse ordering based on Plotly's default
       x: sorted_values.reverse(),
       y: ids.reverse(),
@@ -100,7 +43,7 @@ function init() {
     let traceData = [trace1];
 
     let layout = {
-      title: ` `,
+      title: `Ten Largest Samples by Subject`,
       width: 600,
       height: 450,
       xaxis: {
@@ -113,16 +56,19 @@ function init() {
       },
       showlegend: false
     }
+    // Add figure to page at selected <div>
     Plotly.newPlot("bar", traceData, layout);
     
-    //Create Bubble Chart
+    // Create Bubble Chart
     // sizeref using above forumla
-    var desired_maximum_marker_size = 80;
-    var size = sample_values;
-    //sample_values
+    const desired_maximum_marker_size = 80;
+    const size = sample_values;
+    
+    // Rebuild data to load all subject ID results
     ids = filteredData[0].otu_ids;
     labels = filteredData[0].otu_labels;
-    var trace4 = {
+    
+    let trace2 = {
       x: ids,
       y: sample_values,
       text: labels,
@@ -137,10 +83,10 @@ function init() {
       },
     };
     
-    var data = [trace4];
+    let tracedata2 = [trace2];
     
-    var bublayout = {
-      //title: 'Portland',
+    let bublayout = {
+      title: 'All Samples by Subject',
       showlegend: false,
       height: 600,
       width: 1000,
@@ -152,14 +98,13 @@ function init() {
       }
     };
     
-    Plotly.newPlot('bubble', data, bublayout);
-    
-    
+    // Add figure to page at selected <div>
+    Plotly.newPlot('bubble', tracedata2, bublayout);
+        
     // Create demographic section from matching subject metadata
     let filteredDemographics = filterDemographics(demographics, initialSelection);
     filteredDemographics = filteredDemographics[0];
-    console.log(filteredDemographics);
-
+    
     let panel = d3.select("#sample-metadata");
        
     for (const [key, value] of Object.entries(filteredDemographics)) {
@@ -167,48 +112,28 @@ function init() {
       let line = panel.append("p");
       line.text(`${key}: ${value}`);
     }
-   
-
   })
 
+// External function to capture sample data based on passed ID value  
 function filterData(samples, selectedID) {
   filteredData = samples.filter(subject => subject.id === selectedID);
-  //console.log(filteredData) 
-  //let sampleValues = filteredData.map(filteredData);
-  //console.log(sampleValues);
   return filteredData;
 }    
 
+// External function to capture metadata based on passed ID value
 function filterDemographics(metadata, selectedID) {
   filteredDemo = metadata.filter(subject => subject.id === parseInt(selectedID));
   return filteredDemo;
 }
-
-    //let samples = Object.values(data.samples);
-    //let sampleValues = samples[0].sample_values;
-    //console.log(sampleValues);
-
-    //let samples = data.samples; //map(row[2]);
-    //let id = "940"
-    //let sampleValues = samples.filter(samples.name === id)
-    //console.log(sampleValues);
-
     
 
 };
 
+// On change of Subject ID, repeat plot processes with new value
 function optionChanged(currentValue) {
-    //let currentSelection = d3.select("option")
     console.log(currentValue);
   }
 
 
+// Run initial function to build page first
 init();
-
-//form.optionChanged("optionChanged", optionChanged);
-
-// Load sample data
-//d3.json('samples.json').then(data => {
-//  const dataset = data;
-//  buildPlot(dataset)
-//});
