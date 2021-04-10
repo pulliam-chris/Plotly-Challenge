@@ -117,8 +117,10 @@ function init() {
     let filteredDemographics = filterDemographics(demographics, initialSelection);
     filteredDemographics = filteredDemographics[0];
     
+    // Select the panel location
     let panel = d3.select("#sample-metadata");
-        
+    
+    // For each metadata object append the key-value pairs
     for (const [key, value] of Object.entries(filteredDemographics)) {
       let line = panel.append("p");
       line.text(`${key}: ${value}`);
@@ -147,13 +149,14 @@ function optionChanged(newSelection) {
     let ids = filteredData[0].otu_ids.slice(0,10);
     let labels = filteredData[0].otu_labels.slice(0,10);
     
-    //Construct Bar plot from captured data
+    // Construct Bar plot from captured data
     let trace1 = {
-      //Reverse ordering based on Plotly's default
+      // Reverse ordering based on Plotly's default
       x: sorted_values.reverse(),
       y: ids.reverse(),
       text: labels.reverse(),
       type: "bar",
+      // Make bars horizontal
       orientation: "h"
     }
 
@@ -225,10 +228,11 @@ function optionChanged(newSelection) {
     // Remove previous demographic panel entries
     d3.selectAll("p").remove();
 
+    // Select the panel location
     let panel = d3.select("#sample-metadata");
-       
+      
+    // For each key-value pair append to panel
     for (const [key, value] of Object.entries(filteredDemographics)) {
-      //console.log(`${key}: ${value}`);
       let line = panel.append("p");
       line.text(`${key}: ${value}`);
     }
