@@ -10,7 +10,7 @@ Primary files:
 
 * samples.json - Collect of subject data in JSON format keyed off a subject ID that corresponds with their demographic data and samples collected from them.
 
-  * About the Data
+  * **About the Data**
   Hulcr, J. et al.(2012) A Jungle in There: Bacteria in Belly Buttons are Highly Diverse, but Predictable. Retrieved from: http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/
 
 * index.html - Provided dashboard homepage programmed using Bootstrap and linked to the script files above.
