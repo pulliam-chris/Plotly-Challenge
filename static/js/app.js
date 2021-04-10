@@ -55,7 +55,7 @@ function init() {
     let traceData = [trace1];
 
     let layout = {
-      title: `Ten Largest Samples by Subject`,
+      title: `Ten Largest Samples by Subject ${initialSelection}`,
       width: 600,
       height: 450,
       xaxis: {
@@ -98,7 +98,7 @@ function init() {
     let tracedata2 = [trace2];
     
     let bublayout = {
-      title: 'All Samples by Subject',
+      title: `All Samples by Subject ${initialSelection}`,
       showlegend: false,
       height: 600,
       width: 1000,
@@ -120,7 +120,6 @@ function init() {
     let panel = d3.select("#sample-metadata");
         
     for (const [key, value] of Object.entries(filteredDemographics)) {
-      //console.log(`${key}: ${value}`);
       let line = panel.append("p");
       line.text(`${key}: ${value}`);
     }
@@ -161,7 +160,7 @@ function optionChanged(newSelection) {
     let traceData = [trace1];
 
     let layout = {
-      title: `Ten Largest Samples by Subject`,
+      title: `Ten Largest Samples by Subject ${newSelection}`,
       width: 600,
       height: 450,
       xaxis: {
@@ -204,7 +203,7 @@ function optionChanged(newSelection) {
     let tracedata2 = [trace2];
     
     let bublayout = {
-      title: 'All Samples by Subject',
+      title: `All Samples by Subject ${newSelection}`,
       showlegend: false,
       height: 600,
       width: 1000,
